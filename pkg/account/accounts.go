@@ -1,9 +1,11 @@
 package account
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -118,5 +120,52 @@ func (c *Client) Delete(id string, version int) (*AccountRes, error) {
 	// 	return nil, err
 	// }
 	res.Code = http.StatusNoContent
+	return &res, nil
+}
+
+func (c *Client) Create(acc AccountRes) (*AccountRes, error) {
+
+	rp := fmt.Sprintf("%s/organisation/accounts", c.baseURL)
+	fmt.Println("rp is = ", rp)
+
+	var buf io.ReadWriter
+	buf = new(bytes.Buffer)
+	err := json.NewEncoder(buf).Encode(acc)
+	if err != nil {
+		//TODO:maybe return error response type instead of pure error
+		return nil, err
+	}
+
+	//create http Get request
+	req, err := http.NewRequest(http.MethodPost, rp, buf)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+
+	//make http request
+	o, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer o.Body.Close()
+
+	//check request response
+	if o.StatusCode != http.StatusCreated {
+		var errRes errResponse
+		if err = json.NewDecoder(o.Body).Decode(&errRes); err == nil {
+			//if http api error_message is decoded without any err return that
+			return nil, errors.New(errRes.Message)
+		}
+
+		return nil, fmt.Errorf("unknown error, status code %d", o.StatusCode)
+	}
+
+	res := AccountRes{}
+	if err := json.NewDecoder(o.Body).Decode(&res); err != nil {
+		return nil, err
+	}
+	res.Code = http.StatusCreated
 	return &res, nil
 }
