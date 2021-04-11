@@ -17,6 +17,25 @@ http://localhost:8080/v1/organisation/accounts \
  }'
 
 
+ curl -X POST -H "Content-Type: application/vnd.api+json" \
+http://localhost:8080/v1/organisation/accounts \
+-d \
+'{
+   "data": {
+     "type": "accounts",
+     "id": "ad27e265-9605-4b4b-a0e5-3003ea9cc4au",
+     "organisation_id": "eb0bd6f5-c3f5-44b2-b677-acd23cdde73c",
+     "attributes": {
+       "country": "AU",
+       "base_currency": "AUD",
+       "bank_id": "700300",
+       "bank_id_code": "AUBSB",
+       "bic": "AUBKGB23"
+     }
+   }
+ }'
+
+
 ad27e265-9605-4b4b-a0e5-3003ea9cc4dc
 
 curl -v -X GET http://localhost:8080/v1/organisation/accounts/ad27e265-9605-4b4b-a0e5-3003ea9cc4dc \
