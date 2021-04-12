@@ -5,11 +5,11 @@ type Account struct {
 	ID             string     `json:"id"`
 	OrganisationID string     `json:"organisation_id"`
 	Version        int        `json:"version"`
-	Attributes     Attributes `json:"attributes"`
+	Attributes     attributes `json:"attributes"`
 	// Relationships  Relationships `json:"relationships"`
 }
 
-type Attributes struct {
+type attributes struct {
 	Country       string `json:"country"`
 	BaseCurrency  string `json:"base_currency"`
 	AccountNumber string `json:"account_number"`

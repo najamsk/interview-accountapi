@@ -24,7 +24,6 @@ func TestFetchAccount(t *testing.T) {
 
 	//Clean up
 	c.Delete(a.ID, 0)
-	// assert.Equal(t, id, r.Data.ID)
 }
 
 func TestFetchAccountNotFound(t *testing.T) {
@@ -49,8 +48,6 @@ func TestFetchAccountInvalidID(t *testing.T) {
 
 	assert.NotNil(t, err)
 	assert.Nil(t, r)
-	// assert.Equal(t, id, r.Data.ID)
-	// assert.Equal(t, http.StatusOK, r.Code)
 }
 
 func TestDeleteAccount(t *testing.T) {
@@ -87,7 +84,8 @@ func TestCreateAccount(t *testing.T) {
 	acc.ID = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
 	acc.Type = "accounts"
 	acc.OrganisationID = "eb0bd6f5-c3f5-44b2-b677-acd23cdde73c"
-	acc.Attributes = Attributes{
+
+	acc.Attributes = attributes{
 		Country:      "AU",
 		BaseCurrency: "AUD",
 		BankID:       "700300",
@@ -132,7 +130,7 @@ func TestCreateAccountSameID(t *testing.T) {
 	acc.ID = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
 	acc.Type = "accounts"
 	acc.OrganisationID = "eb0bd6f5-c3f5-44b2-b677-acd23cdde73c"
-	acc.Attributes = Attributes{
+	acc.Attributes = attributes{
 		Country:      "AU",
 		BaseCurrency: "AUD",
 		BankID:       "700300",
@@ -172,7 +170,7 @@ func createAccountHelper() (*Account, error) {
 	acc.Type = "accounts"
 	acc.OrganisationID = "eb0bd6f5-c3f5-44b2-b677-acd23cdde73c"
 
-	acc.Attributes = Attributes{
+	acc.Attributes = attributes{
 		Country:      "AU",
 		BaseCurrency: "AUD",
 		BankID:       "700300",
