@@ -1,11 +1,5 @@
 package account
 
-type AccountRes struct {
-	Data Account `json:"data"` //could be interface{} so we can pass any kind of data
-	Code int     `json:"code"`
-	//TODO: Links ??
-}
-
 type Account struct {
 	Type           string     `json:"type"`
 	ID             string     `json:"id"`

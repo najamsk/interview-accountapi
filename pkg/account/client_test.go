@@ -10,34 +10,20 @@ import (
 func TestFetchAccount(t *testing.T) {
 	//Arrange
 	c := NewClient()
-	//create account first time
-	acc := Account{}
-	acc.ID = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-	acc.Type = "accounts"
-	acc.OrganisationID = "eb0bd6f5-c3f5-44b2-b677-acd23cdde73c"
-	acc.Attributes = Attributes{
-		Country:      "AU",
-		BaseCurrency: "AUD",
-		BankID:       "700300",
-		BankIDCode:   "AUBSB",
-		Bic:          "AUBKGB23",
-	}
-	accD := AccountRes{
-		Data: acc,
-	}
 
-	_, err := c.Create(accD)
+	a, err := createAccountHelper()
 	if err != nil {
 		t.Errorf("can't create account first time, error =%#v \n", err)
 	}
 
 	//Act
-	r, err := c.Fetch(acc.ID)
+	r, err := c.Fetch(a.ID)
 	assert.Nil(t, err)
 	assert.NotNil(t, r)
+	assert.Equal(t, r.ID, a.ID)
 
 	//Clean up
-	c.Delete(acc.ID, 0)
+	c.Delete(a.ID, 0)
 	// assert.Equal(t, id, r.Data.ID)
 }
 
@@ -71,65 +57,24 @@ func TestDeleteAccount(t *testing.T) {
 	//Arrange
 	c := NewClient()
 	//create account first time
-	acc := Account{}
-	acc.ID = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-	acc.Type = "accounts"
-	acc.OrganisationID = "eb0bd6f5-c3f5-44b2-b677-acd23cdde73c"
-	acc.Attributes = Attributes{
-		Country:      "AU",
-		BaseCurrency: "AUD",
-		BankID:       "700300",
-		BankIDCode:   "AUBSB",
-		Bic:          "AUBKGB23",
-	}
-	accD := AccountRes{
-		Data: acc,
-	}
-
-	_, err := c.Create(accD)
+	a, err := createAccountHelper()
 	if err != nil {
 		t.Errorf("can't create account first time, error =%#v \n", err)
 	}
 
 	//Act
 	ver := 0
-	err = c.Delete(acc.ID, ver)
+	err = c.Delete(a.ID, ver)
 
 	//Assert
 	assert.Nil(t, err)
 }
 
-// func TestDeleteAccountInvalidVersion(t *testing.T) {
-// 	c := NewClient()
-
-// 	//TODO: first create account and then fetch same account and check important fields and id should be not nil
-// 	//TODO: do I need to put http status code as field in our response struct?
-// 	id := "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
-// 	ver := 0
-// 	err := c.Delete(id, ver)
-
-// 	assert.NotNil(t, err)
-// }
 func TestDeleteAccountInvalidIdFormat(t *testing.T) {
 	c := NewClient()
-
-	//TODO: first create account and then fetch same account and check important fields and id should be not nil
-	//TODO: do I need to put http status code as field in our response struct?
-	id := "eb0bd6f5-c3f5-44b2-b677-acd23cdde73"
+	id := "adfa"
 	ver := 0
 	err := c.Delete(id, ver)
-
-	assert.NotNil(t, err)
-}
-func TestDeleteAccountIDNotFound(t *testing.T) {
-	c := NewClient()
-
-	//TODO: first create account and then fetch same account and check important fields and id should be not nil
-	//TODO: do I need to put http status code as field in our response struct?
-	id := "b83dc772-6a9c-4375-b693-9e5ad8cd1e54"
-	ver := 0
-	err := c.Delete(id, ver)
-
 	assert.NotNil(t, err)
 }
 
@@ -149,7 +94,7 @@ func TestCreateAccount(t *testing.T) {
 		BankIDCode:   "AUBSB",
 		Bic:          "AUBKGB23",
 	}
-	accD := AccountRes{
+	accD := accountMessage{
 		Data: acc,
 	}
 
@@ -194,7 +139,7 @@ func TestCreateAccountSameID(t *testing.T) {
 		BankIDCode:   "AUBSB",
 		Bic:          "AUBKGB23",
 	}
-	accD := AccountRes{
+	accD := accountMessage{
 		Data: acc,
 	}
 
@@ -219,7 +164,7 @@ func TestDeleteLastHelper(t *testing.T) {
 	err := c.Delete(id, ver)
 	assert.Nil(t, err)
 }
-func createAccountHelper() {
+func createAccountHelper() (*Account, error) {
 	c := NewClient()
 	acc := Account{}
 
@@ -234,8 +179,9 @@ func createAccountHelper() {
 		BankIDCode:   "AUBSB",
 		Bic:          "AUBKGB23",
 	}
-	accD := AccountRes{
+	accD := accountMessage{
 		Data: acc,
 	}
-	c.Create(accD)
+	a, e := c.Create(accD)
+	return a, e
 }

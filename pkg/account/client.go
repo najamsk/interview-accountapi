@@ -10,9 +10,9 @@ import (
 
 type errorResponse struct {
 	Message string `json:"error_message"`
-	Code    int    `json:"code"`
+	// Code    int    `json:"code"`
 }
-type successResponse struct {
+type accountMessage struct {
 	// Code int `json:"code"`
 	Data interface{} `json:"data"`
 }
@@ -55,7 +55,7 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 	}
 
 	// Unmarshall and populate v
-	fullResponse := successResponse{
+	fullResponse := accountMessage{
 		Data: v,
 	}
 	if err = json.NewDecoder(res.Body).Decode(&fullResponse); err != nil {

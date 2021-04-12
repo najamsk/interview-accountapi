@@ -48,7 +48,6 @@ func (c *Client) Delete(id string, version int) error {
 	rp := fmt.Sprintf("%s/organisation/accounts/%s?version=%d", c.baseURL, id, version)
 	fmt.Println("rp is = ", rp)
 
-	//create http Get request
 	req, err := http.NewRequest(http.MethodDelete, rp, nil)
 	if err != nil {
 		return err
@@ -65,7 +64,8 @@ func (c *Client) Delete(id string, version int) error {
 	return nil
 }
 
-func (c *Client) Create(acc AccountRes) (*Account, error) {
+// Create takes accountMessage and return account or error
+func (c *Client) Create(acc accountMessage) (*Account, error) {
 
 	rp := fmt.Sprintf("%s/organisation/accounts", c.baseURL)
 	fmt.Println("rp is = ", rp)
@@ -74,17 +74,13 @@ func (c *Client) Create(acc AccountRes) (*Account, error) {
 	buf = new(bytes.Buffer)
 	err := json.NewEncoder(buf).Encode(acc)
 	if err != nil {
-		//TODO:maybe return error response type instead of pure error
 		return nil, err
 	}
 
-	//create http Get request
 	req, err := http.NewRequest(http.MethodPost, rp, buf)
 	if err != nil {
 		return nil, err
 	}
-
-	//make http request
 
 	res := Account{}
 	if err := c.sendRequest(req, &res); err != nil {
