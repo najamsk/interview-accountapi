@@ -162,6 +162,29 @@ func TestDeleteLastHelper(t *testing.T) {
 	err := c.Delete(id, ver)
 	assert.Nil(t, err)
 }
+
+// func TestCreateAccountHelper(t *testing.T) {
+// 	c := NewClient()
+// 	acc := Account{}
+
+// 	acc.ID = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+// 	acc.Type = "accounts"
+// 	acc.OrganisationID = "eb0bd6f5-c3f5-44b2-b677-acd23cdde73c"
+
+// 	acc.Attributes = attributes{
+// 		Country:      "AU",
+// 		BaseCurrency: "AUD",
+// 		BankID:       "700300",
+// 		BankIDCode:   "AUBSB",
+// 		Bic:          "AUBKGB23",
+// 	}
+// 	accD := accountMessage{
+// 		Data: acc,
+// 	}
+// 	_, e := c.Create(accD)
+// 	assert.Nil(t, e)
+// }
+
 func createAccountHelper() (*Account, error) {
 	c := NewClient()
 	acc := Account{}
