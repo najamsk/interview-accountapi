@@ -58,11 +58,16 @@ http://localhost:8080/v1/organisation/accounts \
 
 
 
+Found
+curl -v -X DELETE http://localhost:8080/v1/organisation/accounts/6ba7b810-9dad-11d1-80b4-00c04fd430c8?version=0
 
- curl -v -X DELETE http://localhost:8080/v1/organisation/accounts/6ba7b810-9dad-11d1-80b4-00c04fd430c8?version=0
-
-
-ad27e265-9605-4b4b-a0e5-3003ea9cc4dc
+Fetch
 curl -v -X GET http://localhost:8080/v1/organisation/accounts
 curl -v -X GET http://localhost:8080/v1/organisation/accounts/ad27e265-9605-4b4b-a0e5-3003ea9cc4dc \
 -H "Accept: application/vnd.api+json"
+
+
+Not found
+curl -v -X GET http://localhost:8080/v1/organisation/accounts/b83dc772-6a9c-4375-b693-9e5ad8cd1e54 | jq
+curl -v -X DELETE http://localhost:8080/v1/organisation/accounts/b83dc772-6a9c-4375-b693-9e5ad8cd1e54?version=0 | jq
+
