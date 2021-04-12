@@ -54,7 +54,8 @@ http://localhost:8080/v1/organisation/accounts \
      }
    },
    "code":"200"
- }'
+ }' | jq
+
 
 
 
