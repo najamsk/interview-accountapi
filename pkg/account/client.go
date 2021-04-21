@@ -3,7 +3,6 @@ package account
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 )
@@ -22,12 +21,20 @@ type Client struct {
 	httpClient *http.Client
 }
 
-func NewClient() *Client {
-	return &Client{
-		baseURL: "http://localhost:8080/v1",
-		httpClient: &http.Client{
+const ErrUnknowType = "unknown error"
+
+func NewClient(basePath string, hc *http.Client) *Client {
+	if hc == nil {
+		hc = &http.Client{
 			Timeout: time.Minute,
-		},
+		}
+	}
+	if len(basePath) == 0 {
+		basePath = "http://localhost:8080/v1"
+	}
+	return &Client{
+		baseURL:    basePath,
+		httpClient: hc,
 	}
 }
 
@@ -50,8 +57,9 @@ func (c *Client) sendRequest(req *http.Request, v interface{}) error {
 		if err = json.NewDecoder(res.Body).Decode(&errRes); err == nil {
 			return errors.New(errRes.Message)
 		}
+		return errors.New(ErrUnknowType)
 
-		return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
+		// return fmt.Errorf("unknown error, status code: %d", res.StatusCode)
 	}
 
 	// Unmarshall and populate v

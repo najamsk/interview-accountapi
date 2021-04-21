@@ -31,7 +31,7 @@ func (c *Client) Fetch(id string) (*Account, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+	// req.Header.Set("Content-Type", "application/json; charset=utf-8")
 
 	//make request and get parsed response
 	res := Account{}

@@ -8,7 +8,7 @@ import (
 
 func main() {
 	fmt.Println("start account test client")
-	c := account.NewClient()
+	c := account.NewClient("", nil)
 
 	//ad27e265-9605-4b4b-a0e5-3003ea9cc4dc
 	//ad27e265-9605-4b4b-a0e5-3003ea9cc4dc

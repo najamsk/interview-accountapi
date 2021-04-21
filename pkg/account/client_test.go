@@ -9,7 +9,7 @@ import (
 
 func TestFetchAccount(t *testing.T) {
 	//Arrange
-	c := NewClient()
+	c := NewClient("", nil)
 
 	a, err := createAccountHelper()
 	if err != nil {
@@ -27,7 +27,7 @@ func TestFetchAccount(t *testing.T) {
 }
 
 func TestFetchAccountNotFound(t *testing.T) {
-	c := NewClient()
+	c := NewClient("", nil)
 
 	id := "b83dc772-6a9c-4375-b693-9e5ad8cd1e54"
 	r, err := c.Fetch(id)
@@ -39,7 +39,7 @@ func TestFetchAccountNotFound(t *testing.T) {
 }
 
 func TestFetchAccountInvalidID(t *testing.T) {
-	c := NewClient()
+	c := NewClient("", nil)
 
 	id := "b8"
 	r, err := c.Fetch(id)
@@ -52,7 +52,7 @@ func TestFetchAccountInvalidID(t *testing.T) {
 
 func TestDeleteAccount(t *testing.T) {
 	//Arrange
-	c := NewClient()
+	c := NewClient("", nil)
 	//create account first time
 	a, err := createAccountHelper()
 	if err != nil {
@@ -68,7 +68,7 @@ func TestDeleteAccount(t *testing.T) {
 }
 
 func TestDeleteAccountInvalidIdFormat(t *testing.T) {
-	c := NewClient()
+	c := NewClient("", nil)
 	id := "adfa"
 	ver := 0
 	err := c.Delete(id, ver)
@@ -77,7 +77,7 @@ func TestDeleteAccountInvalidIdFormat(t *testing.T) {
 
 func TestCreateAccount(t *testing.T) {
 	//Arrange
-	c := NewClient()
+	c := NewClient("", nil)
 	c.Delete("6ba7b810-9dad-11d1-80b4-00c04fd430c8", 0)
 
 	acc := Account{}
@@ -113,7 +113,7 @@ func TestCreateAccount(t *testing.T) {
 
 func TestCreateAccountSameID(t *testing.T) {
 	//Arrange
-	c := NewClient()
+	c := NewClient("", nil)
 	c.Delete("6ba7b810-9dad-11d1-80b4-00c04fd430c8", 0)
 
 	//first delete so that we know account doesnt exist
@@ -155,16 +155,16 @@ func TestCreateAccountSameID(t *testing.T) {
 	c.Delete("6ba7b810-9dad-11d1-80b4-00c04fd430c8", 0)
 }
 
-func TestDeleteLastHelper(t *testing.T) {
-	c := NewClient()
-	id := "ad27e265-9605-4b4b-a0e5-3003ea9cc4dc"
-	ver := 0
-	err := c.Delete(id, ver)
-	assert.Nil(t, err)
-}
+// func TestDeleteLastHelper(t *testing.T) {
+// 	c := NewClient("", nil)
+// 	id := "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+// 	ver := 0
+// 	err := c.Delete(id, ver)
+// 	assert.Nil(t, err)
+// }
 
 // func TestCreateAccountHelper(t *testing.T) {
-// 	c := NewClient()
+// 	c := NewClient("", nil)
 // 	acc := Account{}
 
 // 	acc.ID = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"
@@ -186,7 +186,7 @@ func TestDeleteLastHelper(t *testing.T) {
 // }
 
 func createAccountHelper() (*Account, error) {
-	c := NewClient()
+	c := NewClient("", nil)
 	acc := Account{}
 
 	acc.ID = "6ba7b810-9dad-11d1-80b4-00c04fd430c8"

@@ -1,0 +1,12 @@
+FROM golang:1.16-alpine
+
+RUN set -ex; \
+    apk update; \
+    apk add --no-cache git
+
+WORKDIR /home/najam/go/src/github.com/najamsk/interview-accountapi/
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+EXPOSE 8080
+CMD CGO_ENABLED=0  go test ./...
