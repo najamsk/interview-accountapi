@@ -1,3 +1,6 @@
+/* 
+Package account implements a rest api client
+*/
 package account
 
 type Account struct {

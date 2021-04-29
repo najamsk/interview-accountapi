@@ -141,13 +141,13 @@ func TestCreateAccountSameID(t *testing.T) {
 		Data: acc,
 	}
 
-	r, err := c.Create(accD)
+	_, err = c.Create(accD)
 	if err != nil {
 		t.Errorf("can't create account first time, error =%#v \n", err)
 	}
 	//Act
 	//create 2nd time
-	r, err = c.Create(accD)
+	r, err := c.Create(accD)
 
 	//Assert
 	assert.NotNil(t, err)

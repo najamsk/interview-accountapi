@@ -8,19 +8,6 @@ import (
 	"net/http"
 )
 
-// type Relationships struct {
-// 	AccountEvents AccountEvents `json:"account_events"`
-// }
-
-// type AccountEvents struct {
-// 	Data []AccountEventData `json:"data"`
-// }
-
-// type AccountEventData struct {
-// 	Type string `json:"type"`
-// 	ID   string `json:"id"`
-// }
-
 // Fetch takes account id and resturns nilable accont or error
 func (c *Client) Fetch(id string) (*Account, error) {
 	rp := fmt.Sprintf("%s/organisation/accounts/%s", c.baseURL, id)
@@ -70,8 +57,7 @@ func (c *Client) Create(acc accountMessage) (*Account, error) {
 	rp := fmt.Sprintf("%s/organisation/accounts", c.baseURL)
 	fmt.Println("rp is = ", rp)
 
-	var buf io.ReadWriter
-	buf = new(bytes.Buffer)
+	var buf io.ReadWriter = new(bytes.Buffer)
 	err := json.NewEncoder(buf).Encode(acc)
 	if err != nil {
 		return nil, err
